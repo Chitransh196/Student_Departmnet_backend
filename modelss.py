@@ -1,8 +1,11 @@
 # models.py
-
 from sqlalchemy import Column, Integer, String, ForeignKey
+from St_Pd import Base, engine
+from pydantic import BaseModel
 from sqlalchemy.orm import relationship
-from St_Pd import Base
+
+
+
 
 
 class Department(Base):
@@ -30,3 +33,6 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     username = Column(String, unique=True)
     hashed_password = Column(String)
+
+
+
