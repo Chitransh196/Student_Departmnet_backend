@@ -53,19 +53,19 @@ def get_departments():
 
 
 @app.post("/departments")
-def post_department(dept=DepartmentCreate):
+def post_department(dept: DepartmentCreate):
     session = SessionLocal()
     depart= Department(name=dept.name)
     session.add(depart)
     session.commit()
     session.close()
-    return {"department added"}
+    return {"department added"} 
 
     
 
 
 @app.post("/students")
-def post_Student(std=StudentsCreate):
+def post_Student(std: StudentsCreate):
     session = SessionLocal()
     std1=Student(name=std.name,
                  dept_id=std.dept_id)

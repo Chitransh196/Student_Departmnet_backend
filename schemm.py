@@ -26,3 +26,4 @@ class StudentDepartmentUpdate(BaseModel):
     student_name: Optional[str] = None
     dept_id: Optional[int] = None
     dept_name: Optional[str] = None
+
