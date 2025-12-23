@@ -13,12 +13,13 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://st-dt-frontent-new.onrender.com"
-    ],      
+        "https://st-dt-frontent-new.vercel.app"
+    ],
     allow_credentials=True,
-    allow_methods=["*"],        
+    allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 
 SessionLocal = sessionmaker(bind=engine)
@@ -68,7 +69,8 @@ def post_department(dept: DepartmentCreate):
     session.add(depart)
     session.commit()
     session.close()
-    return {"department added"} 
+    return {"message": "Department added"}
+
 
     
 
@@ -94,24 +96,36 @@ def update_student_and_department(
     student = session.query(Student).filter(
         Student.id == student_id
     ).first()
-    
+
+    # student not found
     if not student:
         session.close()
+        raise HTTPException(
+            status_code=404,
+            detail="Student not found"
+        )
 
+    # update student name
     if data.student_name:
         student.name = data.student_name
 
+    # update department
     if data.dept_id:
         department = session.query(Department).filter(
             Department.id == data.dept_id
         ).first()
 
-        if not student:
+        if not department:
             session.close()
-        raise HTTPException(
-            status_code=404,
-            detail="Student not found"
-    )
+            raise HTTPException(
+                status_code=404,
+                detail="Department not found"
+            )
+
+        student.dept_id = data.dept_id
+
+    session.commit()
+    session.close()
     return {"message": "Updated successfully"}
 
 
