@@ -41,6 +41,9 @@ def get_students():
             "name": s.name,
             "dept_id": s.dept_id
         })
+    session.close()
+    return result
+
 
 @app.get("/departments")
 def get_departments():
@@ -80,6 +83,7 @@ def post_Student(std: StudentsCreate):
     session.add(std1)
     session.commit()
     session.close()
+    return {"message": "Student added successfully"}
 
 
 
@@ -104,15 +108,14 @@ def update_student_and_department(
             Department.id == data.dept_id
         ).first()
 
-        student.dept_id = data.dept_id
+        if not student:
+            session.close()
+        raise HTTPException(
+            status_code=404,
+            detail="Student not found"
+    )
+    return {"message": "Updated successfully"}
 
-    if data.dept_name:
-        student.department.name = data.dept_name
-
-    session.commit()
-    session.close()
-
-    return {" updated successfully"}
 
 
 

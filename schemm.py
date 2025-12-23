@@ -5,7 +5,8 @@ from typing import Optional
 
 class UserSignup(BaseModel):
     username: str
-    password: str = Field(min_length=4, max_length=30)
+    password: str = Field(..., min_length=4, max_length=30)
+
 
 class UserLogin(BaseModel):
     username: str
@@ -16,7 +17,7 @@ class DepartmentCreate(BaseModel):
 
 class StudentsCreate(BaseModel):
     name: str
-    dept_id: str
+    dept_id: int
 
 class StudentUpdate(BaseModel):
     name: str
