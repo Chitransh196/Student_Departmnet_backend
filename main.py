@@ -12,7 +12,11 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],      
+    allow_origins=[
+        "http://127.0.0.1:5500",
+        "http://localhost:5500",
+        "https://your-frontend-on-render.onrender.com"
+    ],      
     allow_credentials=True,
     allow_methods=["*"],        
     allow_headers=["*"],
@@ -20,6 +24,10 @@ app.add_middleware(
 
 
 SessionLocal = sessionmaker(bind=engine)
+
+@app.get("/")
+def home():
+    return "This is Home page of my website "
 
 @app.get("/Student")
 def get_students():
